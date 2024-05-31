@@ -1,0 +1,28 @@
+const { MongoClient } = require('mongodb');
+
+// Connection URI
+const uri = 'mongodb://localhost:27017/abinesh';
+
+// Connect to the MongoDB server
+MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true }, (err, client) => {
+    if (err) {
+        console.error('Error connecting to MongoDB:', err);
+        return;
+    }
+
+    // Access the database
+    const db = client.db();
+
+    // Example: Insert a document
+    const collection = db.collection('your-collection-name');
+    collection.insertOne({ key: 'value' }, (insertErr, result) => {
+        if (insertErr) {
+            console.error('Error inserting document:', insertErr);
+        } else {
+            console.log('Document inserted:', result.ops);
+        }
+
+        // Close the connection after operations
+        client.close();
+    });
+});
